@@ -18,7 +18,10 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: [
+      'http://localhost:5173',
+      'https://handi-craft-three.vercel.app'
+    ],
     credentials: true,
   })
 );
