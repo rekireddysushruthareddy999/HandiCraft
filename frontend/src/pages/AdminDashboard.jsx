@@ -29,7 +29,7 @@ const AdminDashboard = () => {
     return (
         <section className="page page--admin">
             <h1>Admin Panel</h1>
-            {message && <p className="alert">{message}</p>}
+            {message && <p className="alert" role="status">{message}</p>}
             <div className="admin-grid">
                 <div className="admin-card">
                     <h2>Vendor KYC Requests</h2>

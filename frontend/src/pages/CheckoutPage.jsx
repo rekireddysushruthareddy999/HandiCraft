@@ -66,7 +66,7 @@ const CheckoutPage = () => {
                     setMessage(verifyResponse.message);
                 }
             },
-            theme: { color: '#4b3621' },
+            theme: { color: '#c08552' },
         };
 
         const rzp = new window.Razorpay(options);
@@ -89,7 +89,7 @@ const CheckoutPage = () => {
                 </div>
                 <p className="price">Grand total: ₹{cartTotal.toFixed(0)}</p>
                 <button className="button button--primary" disabled={loading} onClick={handleCheckout}>{loading ? 'Processing...' : 'Pay with Razorpay'}</button>
-                {message && <p className="alert">{message}</p>}
+                {message && <p className="alert" role="status">{message}</p>}
             </div>
         </section>
     );

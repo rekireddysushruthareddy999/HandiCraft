@@ -25,8 +25,8 @@ const AuthPage = () => {
         <section className="page page--auth">
             <div className="auth-card">
                 <div className="tabs">
-                    <button className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Login</button>
-                    <button className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Register</button>
+                    <button type="button" className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Login</button>
+                    <button type="button" className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Register</button>
                 </div>
                 <form onSubmit={handleSubmit} className="form-card">
                     {mode === 'register' && (
@@ -50,7 +50,7 @@ const AuthPage = () => {
                             )}
                         </>
                     )}
-                    {message && <p className="alert">{message}</p>}
+                    {message && <p className="alert" role="alert">{message}</p>}
                     <button className="button button--primary" type="submit" disabled={loading}>{loading ? 'Saving...' : mode === 'login' ? 'Login' : 'Register'}</button>
                 </form>
             </div>

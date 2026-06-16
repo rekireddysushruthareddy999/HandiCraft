@@ -66,8 +66,8 @@ export const refreshToken = async (req, res, next) => {
         const user = await User.findOne({ refreshToken });
         if (!user) return res.status(401).json({ success: false, message: 'Invalid refresh token', data: {} });
 
-        jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, decoded) => {
-            if (err || decoded.id !== user._id.toString()) {
+        jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET, async (err, decoded) => {
+            if (err || decoded.id !== user._id.toString() || decoded.type !== 'refresh') {
                 return res.status(401).json({ success: false, message: 'Refresh token invalid', data: {} });
             }
             const tokens = await createTokenPair(user);

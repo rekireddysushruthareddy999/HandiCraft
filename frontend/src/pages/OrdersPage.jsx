@@ -19,7 +19,7 @@ const OrdersPage = () => {
         if (user) loadOrders();
     }, [user]);
 
-    if (loading) return <div className="loader">Loading orders...</div>;
+    if (loading) return <div className="loader" role="status">Loading orders...</div>;
     if (!orders.length) return <div className="empty-state">{message || 'No orders yet.'}</div>;
 
     return (

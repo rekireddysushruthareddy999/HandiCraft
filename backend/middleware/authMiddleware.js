@@ -6,6 +6,7 @@ export const protect = async (req, res, next) => {
     if (!token) return res.status(401).json({ success: false, message: 'Not authorized, no token', data: {} });
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.type !== 'access') return res.status(401).json({ success: false, message: 'Token invalid or expired', data: {} });
         req.user = await User.findById(decoded.id).select('-password');
         if (!req.user) return res.status(401).json({ success: false, message: 'User not found', data: {} });
         next();

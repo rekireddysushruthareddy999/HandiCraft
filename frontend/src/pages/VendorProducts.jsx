@@ -76,14 +76,16 @@ const VendorProducts = () => {
                     <input name="stock" type="number" value={form.stock} onChange={handleChange} placeholder="Stock quantity" required />
                     <input name="categories" value={form.categories} onChange={handleChange} placeholder="Categories (comma separated)" required />
                     <input name="images" value={form.images} onChange={handleChange} placeholder="Image URLs (comma separated)" required />
-                    {message && <p className="alert">{message}</p>}
+                    {message && <p className="alert" role="status">{message}</p>}
                     <button className="button button--primary" type="submit">Create Product</button>
                 </form>
             </div>
 
             <div className="vendor-products">
                 <h2>Your products</h2>
-                {products.length ? (
+                {loading ? (
+                    <div className="loader" role="status">Loading your products...</div>
+                ) : products.length ? (
                     <div className="product-grid">
                         {products.map((product) => (
                             <article key={product._id} className="product-card">

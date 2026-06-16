@@ -26,7 +26,7 @@ const ProductDetails = () => {
         setMessage('Product added to cart.');
     };
 
-    if (loading) return <div className="loader">Loading product...</div>;
+    if (loading) return <div className="loader" role="status">Loading product...</div>;
     if (!product) return <div className="empty-state">{message || 'Product not found.'}</div>;
 
     return (
@@ -42,7 +42,7 @@ const ProductDetails = () => {
                     <p className="small">Category: {product.categories.join(', ')}</p>
                     <p className="small">Sold by: {product.artisan.name}</p>
                     <button className="button button--primary" onClick={handleAddToCart}>Add to Cart</button>
-                    {message && <p className="alert">{message}</p>}
+                    {message && <p className="alert" role="status">{message}</p>}
                 </div>
             </div>
         </section>

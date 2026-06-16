@@ -29,8 +29,13 @@ const HomePage = () => {
                 <p>Browse authentic crafts, discover artisan stories, and pay securely with Razorpay.</p>
             </div>
             <div className="search-panel">
-                <input placeholder="Search products or artisans" value={search} onChange={(e) => setSearch(e.target.value)} />
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <input
+                    aria-label="Search products or artisans"
+                    placeholder="Search products or artisans"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <select aria-label="Filter by category" value={category} onChange={(e) => setCategory(e.target.value)}>
                     <option value="">All categories</option>
                     {categories.map((cat) => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -38,7 +43,7 @@ const HomePage = () => {
                 </select>
             </div>
             {loading ? (
-                <div className="loader">Loading products...</div>
+                <div className="loader" role="status">Loading products...</div>
             ) : (
                 <div className="product-grid">
                     {products.length ? (

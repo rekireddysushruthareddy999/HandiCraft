@@ -20,6 +20,8 @@ export const createOrder = async (req, res, next) => {
         const razorpayOrder = await razorpayInstance.orders.create({ amount: orderAmount, currency: 'INR', receipt: `order_${Date.now()}` });
         if (!razorpayOrder) return res.status(500).json({ success: false, message: 'Unable to create payment order', data: {} });
 
+        const firstProduct = items[0]?.product ? await Product.findById(items[0].product).select('artisan') : null;
+
         const order = new Order({
             user: req.user.id,
             items,
@@ -27,8 +29,8 @@ export const createOrder = async (req, res, next) => {
             razorpayOrderId: razorpayOrder.id,
             status: 'Pending',
             paymentStatus: 'Pending',
+            artisan: firstProduct?.artisan,
         });
-        order.artisan = items[0]?.product?.artisan || req.user.id;
         await order.save();
 
         res.json({ success: true, message: 'Order created', data: { orderId: razorpayOrder.id, amount: orderAmount, currency: 'INR' } });

@@ -25,11 +25,11 @@ const CartPage = () => {
                             <img src={item.image || 'https://via.placeholder.com/140'} alt={item.name} />
                             <div>
                                 <h3>{item.name}</h3>
-                                <p>₹{item.price.toFixed(0)}</p>
+                                <p className="price">₹{item.price.toFixed(0)}</p>
                                 <div className="cart-controls">
-                                    <button type="button" onClick={() => updateQty(item.productId, Math.max(1, item.qty - 1))}>-</button>
+                                    <button type="button" aria-label={`Decrease quantity of ${item.name}`} onClick={() => updateQty(item.productId, Math.max(1, item.qty - 1))}>-</button>
                                     <span>{item.qty}</span>
-                                    <button type="button" onClick={() => updateQty(item.productId, item.qty + 1)}>+</button>
+                                    <button type="button" aria-label={`Increase quantity of ${item.name}`} onClick={() => updateQty(item.productId, item.qty + 1)}>+</button>
                                 </div>
                                 <button type="button" className="button button--ghost" onClick={() => removeFromCart(item.productId)}>Remove</button>
                             </div>

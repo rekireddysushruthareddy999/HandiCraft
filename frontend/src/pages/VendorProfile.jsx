@@ -19,7 +19,7 @@ const VendorProfile = () => {
         loadVendor();
     }, [id]);
 
-    if (loading) return <div className="loader">Loading artisan...</div>;
+    if (loading) return <div className="loader" role="status">Loading artisan...</div>;
     if (!vendorData) return <div className="empty-state">{message || 'Artisan not found.'}</div>;
 
     const { vendor, products } = vendorData;
