@@ -18,10 +18,15 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'https://handi-craft-three.vercel.app'
-    ],
+    origin: (origin, callback) => {
+      const isVercelPreview = origin && /^https:\/\/handi-craft-.*\.vercel\.app$/.test(origin);
+
+      if (!origin || allowedOrigins.includes(origin) || isVercelPreview) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS: ' + origin));
+      }
+    },
     credentials: true,
   })
 );
