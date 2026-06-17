@@ -30,10 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/auth', authRoutes);
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
     res.json({ success: true, message: 'Artisan Handicraft Marketplace API is running' });
