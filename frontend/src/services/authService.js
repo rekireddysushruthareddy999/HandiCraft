@@ -18,9 +18,13 @@ export const register = async (data) => {
     }
 };
 
-export const logout = async () => {
+export const logout = async (token) => {
     try {
-        const response = await api.post('/auth/logout');
+        const response = await api.post(
+            '/auth/logout',
+            {},
+            token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
+        );
         return response.data;
     } catch (error) {
         return { success: false, message: error.response?.data?.message || error.message, data: {} };

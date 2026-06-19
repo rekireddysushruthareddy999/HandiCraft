@@ -89,11 +89,11 @@ const VendorProducts = () => {
                     <div className="product-grid">
                         {products.map((product) => (
                             <article key={product._id} className="product-card">
-                                <img src={product.images[0] || 'https://via.placeholder.com/300'} alt={product.name} />
+                                <img src={product.images?.[0] || 'https://via.placeholder.com/300'} alt={product.name} />
                                 <div className="product-card__body">
                                     <h3>{product.name}</h3>
-                                    <p className="muted">{product.categories?.join(', ')}</p>
-                                    <p className="price">₹{product.price.toFixed(0)}</p>
+                                    <p className="muted">{(product.categories || []).join(', ')}</p>
+                                    <p className="price">₹{Number(product.price || 0).toFixed(0)}</p>
                                     <button className="button button--ghost" type="button" onClick={() => handleDelete(product._id)}>Remove product</button>
                                 </div>
                             </article>

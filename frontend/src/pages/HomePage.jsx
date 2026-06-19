@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -81,7 +80,7 @@ const HomePage = () => {
                             >
                                 <Link to={`/product/${product._id}`} className="block aspect-[4/3] overflow-hidden">
                                     <img
-                                        src={product.images[0] || 'https://via.placeholder.com/300'}
+                                        src={product.images?.[0] || 'https://via.placeholder.com/300'}
                                         alt={product.name}
                                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
@@ -90,13 +89,19 @@ const HomePage = () => {
                                     <Link to={`/product/${product._id}`}>
                                         <h3 className="font-display text-base font-semibold leading-snug">{product.name}</h3>
                                     </Link>
-                                    <p className="text-sm text-ink/60">{product.description.slice(0, 80)}...</p>
-                                    <p className="font-display text-lg font-bold text-primary-dark">₹{product.price.toFixed(0)}</p>
+                                    <p className="text-sm text-ink/60">{(product.description || '').slice(0, 80)}...</p>
+                                    <p className="font-display text-lg font-bold text-primary-dark">₹{Number(product.price || 0).toFixed(0)}</p>
                                     <p className="text-xs text-ink/50">
-                                        By{' '}
-                                        <Link to={`/vendor/${product.artisan._id}`} className="font-medium text-primary-dark underline-offset-2 hover:underline">
-                                            {product.artisan.name}
-                                        </Link>
+                                        {product.artisan ? (
+                                            <>
+                                                By{' '}
+                                                <Link to={`/vendor/${product.artisan._id}`} className="font-medium text-primary-dark underline-offset-2 hover:underline">
+                                                    {product.artisan.name}
+                                                </Link>
+                                            </>
+                                        ) : (
+                                            'Artisan unavailable'
+                                        )}
                                     </p>
                                 </div>
                             </motion.article>

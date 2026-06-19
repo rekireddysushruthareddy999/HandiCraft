@@ -31,7 +31,7 @@ const OrdersPage = () => {
                         <div>
                             <p><strong>Order ID:</strong> {order._id}</p>
                             <p><strong>Status:</strong> {order.status}</p>
-                            <p><strong>Total:</strong> ₹{order.totalAmount.toFixed(0)}</p>
+                            <p><strong>Total:</strong> ₹{Number(order.totalAmount || 0).toFixed(0)}</p>
                         </div>
                         <div>
                             <p><strong>Payment:</strong> {order.paymentStatus}</p>

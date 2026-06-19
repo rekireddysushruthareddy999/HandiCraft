@@ -50,7 +50,7 @@ const AdminDashboard = () => {
                         <div key={order._id} className="order-card">
                             <p>{order._id}</p>
                             <p>{order.status}</p>
-                            <p>₹{order.totalAmount.toFixed(0)}</p>
+                            <p>₹{Number(order.totalAmount || 0).toFixed(0)}</p>
                         </div>
                     )) : <p>No orders yet.</p>}
                 </div>

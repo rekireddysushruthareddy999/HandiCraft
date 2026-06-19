@@ -45,11 +45,11 @@ const VendorProfile = () => {
                 <div className="product-grid">
                     {products.length ? products.map((product) => (
                         <article key={product._id} className="product-card">
-                            <img src={product.images[0] || 'https://via.placeholder.com/300'} alt={product.name} />
+                            <img src={product.images?.[0] || 'https://via.placeholder.com/300'} alt={product.name} />
                             <div className="product-card__body">
                                 <h3>{product.name}</h3>
-                                <p>{product.description.slice(0, 70)}...</p>
-                                <p className="price">₹{product.price.toFixed(0)}</p>
+                                <p>{(product.description || '').slice(0, 70)}...</p>
+                                <p className="price">₹{Number(product.price || 0).toFixed(0)}</p>
                             </div>
                         </article>
                     )) : <p>No products available from this artisan yet.</p>}

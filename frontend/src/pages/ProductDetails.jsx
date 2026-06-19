@@ -22,7 +22,7 @@ const ProductDetails = () => {
     }, [id]);
 
     const handleAddToCart = () => {
-        addToCart({ productId: product._id, name: product.name, price: product.price, image: product.images[0], qty: 1 });
+        addToCart({ productId: product._id, name: product.name, price: product.price, image: product.images?.[0], qty: 1 });
         setMessage('Product added to cart.');
     };
 
@@ -33,14 +33,14 @@ const ProductDetails = () => {
         <section className="page page--product">
             <div className="product-detail-card">
                 <div className="product-detail__images">
-                    <img src={product.images[0] || 'https://via.placeholder.com/500'} alt={product.name} />
+                    <img src={product.images?.[0] || 'https://via.placeholder.com/500'} alt={product.name} />
                 </div>
                 <div className="product-detail__info">
                     <h1>{product.name}</h1>
-                    <p className="price">₹{product.price.toFixed(0)}</p>
+                    <p className="price">₹{Number(product.price || 0).toFixed(0)}</p>
                     <p>{product.description}</p>
-                    <p className="small">Category: {product.categories.join(', ')}</p>
-                    <p className="small">Sold by: {product.artisan.name}</p>
+                    <p className="small">Category: {(product.categories || []).join(', ') || 'N/A'}</p>
+                    <p className="small">Sold by: {product.artisan?.name || 'Unknown artisan'}</p>
                     <button className="button button--primary" onClick={handleAddToCart}>Add to Cart</button>
                     {message && <p className="alert" role="status">{message}</p>}
                 </div>

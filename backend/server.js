@@ -16,16 +16,18 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const allowedOrigins = (process.env.CLIENT_ORIGINS || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      const isVercelPreview = origin && /^https:\/\/handi-craft-.*\.vercel\.app$/.test(origin);
-
-      if (!origin || allowedOrigins.includes(origin) || isVercelPreview) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS: ' + origin));
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: true,
   })

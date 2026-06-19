@@ -66,15 +66,21 @@ export const refreshToken = async (req, res, next) => {
         const user = await User.findOne({ refreshToken });
         if (!user) return res.status(401).json({ success: false, message: 'Invalid refresh token', data: {} });
 
-        jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET, async (err, decoded) => {
-            if (err || decoded.id !== user._id.toString() || decoded.type !== 'refresh') {
-                return res.status(401).json({ success: false, message: 'Refresh token invalid', data: {} });
-            }
-            const tokens = await createTokenPair(user);
-            user.refreshToken = tokens.refreshToken;
-            await user.save();
-            res.json({ success: true, message: 'Token refreshed', data: { tokens } });
-        });
+        let decoded;
+        try {
+            decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET);
+        } catch (verifyError) {
+            return res.status(401).json({ success: false, message: 'Refresh token invalid', data: {} });
+        }
+
+        if (decoded.id !== user._id.toString() || decoded.type !== 'refresh') {
+            return res.status(401).json({ success: false, message: 'Refresh token invalid', data: {} });
+        }
+
+        const tokens = await createTokenPair(user);
+        user.refreshToken = tokens.refreshToken;
+        await user.save();
+        res.json({ success: true, message: 'Token refreshed', data: { tokens } });
     } catch (error) {
         next(error);
     }
