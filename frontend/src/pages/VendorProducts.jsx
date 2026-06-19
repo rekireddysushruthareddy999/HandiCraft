@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { fetchVendorProfile, createProduct, deleteProduct } from '../services/productService.js';
-
+const categoriesList = [
+    'Textiles',
+    'Pottery',
+    'Woodwork',
+    'Jewelry',
+    'Home Decor',
+];
 const VendorProducts = () => {
     const { user } = useAuth();
     const [products, setProducts] = useState([]);
@@ -29,26 +35,41 @@ const VendorProducts = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleCreate = async (e) => {
-        e.preventDefault();
-        setMessage('Creating product...');
-        const payload = {
-            ...form,
-            price: Number(form.price),
-            stock: Number(form.stock),
-            categories: form.categories,
-            images: form.images.split(',').map((item) => item.trim()).filter(Boolean),
-        };
-        const response = await createProduct(payload);
-        if (response.success) {
-            setProducts((prev) => [response.data.product, ...prev]);
-            setForm({ name: '', description: '', price: '', categories: '', stock: '', images: '' });
-            setMessage('Product added successfully.');
-        } else {
-            setMessage(response.message);
-        }
+ const handleCreate = async (e) => {
+    e.preventDefault();
+
+    setMessage('Creating product...');
+
+    const payload = {
+        ...form,
+        price: Number(form.price),
+        stock: Number(form.stock),
+        categories: [form.categories],
+        images: form.images
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean),
     };
 
+    const response = await createProduct(payload);
+
+    if (response.success) {
+        setProducts((prev) => [response.data.product, ...prev]);
+
+        setForm({
+            name: '',
+            description: '',
+            price: '',
+            categories: '',
+            stock: '',
+            images: '',
+        });
+
+        setMessage('Product added successfully.');
+    } else {
+        setMessage(response.message);
+    }
+};
     const handleDelete = async (productId) => {
         const response = await deleteProduct(productId);
         if (response.success) {
@@ -74,7 +95,19 @@ const VendorProducts = () => {
                     <textarea name="description" value={form.description} onChange={handleChange} placeholder="Product description" rows="4" required />
                     <input name="price" type="number" value={form.price} onChange={handleChange} placeholder="Price" required />
                     <input name="stock" type="number" value={form.stock} onChange={handleChange} placeholder="Stock quantity" required />
-                    <input name="categories" value={form.categories} onChange={handleChange} placeholder="Categories (comma separated)" required />
+                    <select
+                            name="categories"
+                           value={form.categories}
+                          onChange={handleChange}
+                           required
+                           >
+                     <option value="">Select Category</option>
+                    {categoriesList.map((category) => (
+                   <option key={category} value={category}>
+                           {category}
+                        </option>
+                     ))}
+                    </select>
                     <input name="images" value={form.images} onChange={handleChange} placeholder="Image URLs (comma separated)" required />
                     {message && <p className="alert" role="status">{message}</p>}
                     <button className="button button--primary" type="submit">Create Product</button>
