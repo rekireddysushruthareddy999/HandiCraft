@@ -28,6 +28,8 @@ const Navbar = () => {
                     <NavLink to="/auth" className={linkClass}>Sign in</NavLink>
                 )}
                 <NavLink to="/cart" className={linkClass}>Cart ({cartCount})</NavLink>
+                <NavLink to="/profile">Profile</NavLink>
+<NavLink to="/help">Help</NavLink>
             </nav>
         </header>
     );

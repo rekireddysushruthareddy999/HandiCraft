@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../services/productService.js';
 import { useCart } from '../context/CartContext.jsx';
+import api from '../services/api.js';
+
+const toggleWishlist = async () => {
+    await api.post(`/users/wishlist/${product._id}`);
+};
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -43,6 +48,9 @@ const ProductDetails = () => {
                     <p className="small">Sold by: {product.artisan?.name || 'Unknown artisan'}</p>
                     <button className="button button--primary" onClick={handleAddToCart}>Add to Cart</button>
                     {message && <p className="alert" role="status">{message}</p>}
+                    <button onClick={toggleWishlist}>
+    ❤️ Wishlist
+</button>
                 </div>
             </div>
         </section>

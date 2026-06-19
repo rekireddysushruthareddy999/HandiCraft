@@ -12,6 +12,26 @@ const vendorProfileSchema = new mongoose.Schema({
         type: String,
         enum: ['Pending', 'Verified', 'Rejected'],
         default: 'Pending',
+        wishlist: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }
+],
+
+addresses: [
+    {
+        name: String,
+        phone: String,
+        street: String,
+        city: String,
+        state: String,
+        pincode: String,
+        isDefault: { type: Boolean, default: false }
+    }
+],
+
+avatar: { type: String }
     },
 });
 
