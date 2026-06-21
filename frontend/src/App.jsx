@@ -11,8 +11,6 @@ import OrdersPage from './pages/OrdersPage.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
-import ProfilePage from './pages/ProfilePage.jsx';
-import HelpCenter from './pages/HelpCenter.jsx';
 
 function App() {
     return (
@@ -26,8 +24,6 @@ function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                 <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-<Route path="/help" element={<HelpCenter />} />
                 <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
