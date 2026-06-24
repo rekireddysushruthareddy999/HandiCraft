@@ -45,8 +45,12 @@ export const AuthProvider = ({ children }) => {
         setToken('');
     };
 
+    const updateUserLocal = (partialUser) => {
+        setUser((current) => (current ? { ...current, ...partialUser } : current));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateUserLocal }}>
             {children}
         </AuthContext.Provider>
     );

@@ -15,6 +15,19 @@ const vendorProfileSchema = new mongoose.Schema({
     },
 });
 
+const addressSchema = new mongoose.Schema({
+    label: { type: String, default: 'Home' },
+    fullName: { type: String, required: true },
+    phone: { type: String, required: true },
+    line1: { type: String, required: true },
+    line2: { type: String },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, default: 'India' },
+    isDefault: { type: Boolean, default: false },
+});
+
 const userSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
@@ -27,6 +40,8 @@ const userSchema = new mongoose.Schema(
         },
         avatar: { type: String },
         vendorProfile: vendorProfileSchema,
+        addresses: [addressSchema],
+        wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
         refreshToken: { type: String },
     },
     { timestamps: true }

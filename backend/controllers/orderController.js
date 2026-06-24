@@ -14,7 +14,7 @@ export const createOrder = async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ success: false, message: errors.array()[0].msg, data: {} });
 
-        const { items, totalAmount } = req.body;
+        const { items, totalAmount, deliveryAddress } = req.body;
         const orderAmount = Math.round(totalAmount * 100);
 
         const razorpayOrder = await razorpayInstance.orders.create({ amount: orderAmount, currency: 'INR', receipt: `order_${Date.now()}` });
@@ -26,6 +26,7 @@ export const createOrder = async (req, res, next) => {
             user: req.user.id,
             items,
             totalAmount,
+            deliveryAddress,
             razorpayOrderId: razorpayOrder.id,
             status: 'Pending',
             paymentStatus: 'Pending',

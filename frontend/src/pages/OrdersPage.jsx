@@ -37,6 +37,18 @@ const OrdersPage = () => {
                             <p><strong>Payment:</strong> {order.paymentStatus}</p>
                             <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
                         </div>
+                        {order.deliveryAddress?.line1 && (
+                            <div className="order-address">
+                                <p><strong>Deliver to:</strong></p>
+                                <p>{order.deliveryAddress.fullName} · {order.deliveryAddress.phone}</p>
+                                <p className="small">
+                                    {order.deliveryAddress.line1}
+                                    {order.deliveryAddress.line2 ? `, ${order.deliveryAddress.line2}` : ''},&nbsp;
+                                    {order.deliveryAddress.city}, {order.deliveryAddress.state}&nbsp;
+                                    {order.deliveryAddress.postalCode}, {order.deliveryAddress.country}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

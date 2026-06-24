@@ -9,6 +9,7 @@ import VendorProfile from './pages/VendorProfile.jsx';
 import VendorProducts from './pages/VendorProducts.jsx';
 import OrdersPage from './pages/OrdersPage.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                 <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                 <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

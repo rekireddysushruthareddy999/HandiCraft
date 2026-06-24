@@ -378,6 +378,7 @@ textarea::placeholder {
     overflow: hidden;
     background: var(--surface);
     border: 1px solid var(--border);
+    position: relative;
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-sm);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -899,4 +900,151 @@ textarea::placeholder {
         align-items: flex-start;
         gap: 8px;
     }
+}
+
+.wishlist-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c0506f;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.wishlist-toggle:hover {
+    transform: scale(1.08);
+    background: #fff;
+}
+
+.product-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.address-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+}
+
+.address-card > div:last-child {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.checkbox-row input {
+    width: auto;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--sage, #7d9471);
+    color: #fff;
+    margin-left: 6px;
+}
+
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .address-card {
+        flex-direction: column;
+    }
+}
+
+/* ── Checkout address picker ─────────────────────────────── */
+.checkout-section {
+    margin-bottom: 24px;
+}
+
+.checkout-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+.address-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.address-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    background: var(--surface);
+    transition: border-color 0.15s ease;
+}
+
+.address-option input[type="radio"] {
+    width: auto;
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--terracotta);
+}
+
+.address-option--selected {
+    border-color: var(--terracotta);
+    background: color-mix(in srgb, var(--terracotta) 6%, var(--surface));
+}
+
+/* ── Order delivery address block ────────────────────────── */
+.order-address {
+    grid-column: 1 / -1;
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.order-address p {
+    margin: 2px 0;
 }

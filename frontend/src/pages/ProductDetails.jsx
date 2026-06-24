@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProduct } from '../services/productService.js';
 import { useCart } from '../context/CartContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
+import { useWishlist } from '../context/WishlistContext.jsx';
 
 const ProductDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const { addToCart } = useCart();
+    const { user } = useAuth();
+    const { isWishlisted, toggleWishlist } = useWishlist();
 
     useEffect(() => {
         const loadProduct = async () => {
@@ -26,6 +31,14 @@ const ProductDetails = () => {
         setMessage('Product added to cart.');
     };
 
+    const handleWishlistToggle = async () => {
+        if (!user) {
+            navigate('/auth');
+            return;
+        }
+        await toggleWishlist(product._id);
+    };
+
     if (loading) return <div className="loader" role="status">Loading product...</div>;
     if (!product) return <div className="empty-state">{message || 'Product not found.'}</div>;
 
@@ -41,7 +54,17 @@ const ProductDetails = () => {
                     <p>{product.description}</p>
                     <p className="small">Category: {(product.categories || []).join(', ') || 'N/A'}</p>
                     <p className="small">Sold by: {product.artisan?.name || 'Unknown artisan'}</p>
-                    <button className="button button--primary" onClick={handleAddToCart}>Add to Cart</button>
+                    <div className="product-detail__actions">
+                        <button className="button button--primary" onClick={handleAddToCart}>Add to Cart</button>
+                        <button
+                            type="button"
+                            className="button button--ghost"
+                            onClick={handleWishlistToggle}
+                            aria-pressed={isWishlisted(product._id)}
+                        >
+                            {isWishlisted(product._id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
+                        </button>
+                    </div>
                     {message && <p className="alert" role="status">{message}</p>}
                 </div>
             </div>

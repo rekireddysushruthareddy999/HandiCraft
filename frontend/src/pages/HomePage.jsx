@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight, Heart } from 'lucide-react';
 import { fetchProducts } from '../services/productService.js';
+import { useAuth } from '../context/AuthContext.jsx';
+import { useWishlist } from '../context/WishlistContext.jsx';
 
 const categories = ['Textiles', 'Pottery', 'Woodwork', 'Jewelry', 'Home Decor'];
 
@@ -12,6 +14,9 @@ const HomePage = () => {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const { isWishlisted, toggleWishlist } = useWishlist();
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -23,6 +28,13 @@ const HomePage = () => {
         };
         loadProducts();
     }, [search, category]);
+
+    const handleWishlistClick = async (e, productId) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!user) { navigate('/auth'); return; }
+        await toggleWishlist(productId);
+    };
 
     return (
         <div className="page">
@@ -70,9 +82,7 @@ const HomePage = () => {
             </div>
 
             {loading ? (
-                <div role="status" className="loader">
-                    Loading products...
-                </div>
+                <div role="status" className="loader">Loading products...</div>
             ) : (
                 <div className="product-grid">
                     {products.length ? (
@@ -84,12 +94,23 @@ const HomePage = () => {
                                 transition={{ duration: 0.3, delay: Math.min(idx, 6) * 0.04 }}
                                 className="product-card"
                             >
-                                <Link to={`/product/${product._id}`}>
-                                    <img
-                                        src={product.images?.[0] || 'https://via.placeholder.com/300'}
-                                        alt={product.name}
-                                    />
-                                </Link>
+                                <div style={{ position: 'relative' }}>
+                                    <Link to={`/product/${product._id}`}>
+                                        <img
+                                            src={product.images?.[0] || 'https://via.placeholder.com/300'}
+                                            alt={product.name}
+                                        />
+                                    </Link>
+                                    <button
+                                        type="button"
+                                        aria-label={isWishlisted(product._id) ? 'Remove from wishlist' : 'Add to wishlist'}
+                                        aria-pressed={isWishlisted(product._id)}
+                                        onClick={(e) => handleWishlistClick(e, product._id)}
+                                        className="wishlist-toggle"
+                                    >
+                                        <Heart size={16} fill={isWishlisted(product._id) ? 'currentColor' : 'none'} />
+                                    </button>
+                                </div>
                                 <div className="product-card__body">
                                     <Link to={`/product/${product._id}`}>
                                         <h3>{product.name}</h3>
@@ -102,18 +123,10 @@ const HomePage = () => {
                                             'Artisan unavailable'
                                         )}
                                     </p>
-
                                     <Link
                                         to={`/product/${product._id}`}
                                         className="button button--primary"
-                                        style={{
-                                            marginTop: 8,
-                                            display: 'inline-flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            gap: 6,
-                                            textAlign: 'center',
-                                        }}
+                                        style={{ marginTop: 8, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                                     >
                                         View details
                                         <ArrowRight size={15} />
