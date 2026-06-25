@@ -42,7 +42,7 @@ app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/admin', adminRoutes);
-app.use('/profile', profileRoutes);
+app.use('/profile', profileRoute);
 
 app.get('/', (req, res) => {
     res.json({ success: true, message: 'Artisan Handicraft Marketplace API is running' });
