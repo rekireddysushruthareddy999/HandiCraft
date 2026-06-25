@@ -9,7 +9,7 @@ import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import profileRoutes from './routes/profileRoute.js';
+import profileRoute from './routes/profileRoute.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 connectDB();
